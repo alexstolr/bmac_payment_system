@@ -2,6 +2,7 @@ from typing import List
 
 import requests
 
+import constants
 import env_parser
 from datetime import datetime, timedelta
 
@@ -39,7 +40,7 @@ def get_donors() -> List[BmacDonor]:
                     next_donors_endpoint_url = None
                     continue
                 donor_date: datetime = datetime.strptime(donor.support_updated_on, '%Y-%m-%d %H:%M:%S')
-                donation_expiration_date: datetime = donor_date + timedelta(days=30)
+                donation_expiration_date: datetime = donor_date + timedelta(days=constants.SUBSCRIPTION_DAYS)
                 donor.expiration_date_internal = donation_expiration_date
                 if donor.is_subscription_valid(date_now) and not donor.is_refunded:
                     donor.expiration_date_internal = donation_expiration_date
